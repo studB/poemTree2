@@ -1,0 +1,66 @@
+<html>
+    <head>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script>
+            function chooseFavor(){
+                var genre = document.getElementById("genreSelect");
+                genreD = genre.options[genre.selectedIndex].value;
+                var form = document.getElementById("formSelect");
+                formD = form.options[form.selectedIndex].value;
+                var language = document.getElementById("languageSelect");
+                languageD = language.options[language.selectedIndex].value;
+                
+                //const formdata = new FormData();
+                //genreD != 0 ? formdata.append("genre", genreD) : 0 ;
+                //formD != 0 ? formdata.append("form", formD) : 0 ;
+                //languageD != 0 ? formdata.append("language", languageD) : 0 ;
+                genreparm = genreD != 0 ? "genre=" + genreD +"&": ''
+                formparm = formD != 0 ? "form=" + formD + "&" : ''
+                languageparm = languageD != 0 ? "language=" + languageD : ''
+                
+                var url = "./PoemList?" + genreparm + formparm + languageparm
+
+                window.location = url;
+                
+            }; 
+        </script>
+
+    </head>
+<body>
+    <div>
+        favorSelect...!
+    </div>
+    <div>
+        <label>
+            genre
+        </label>
+        <select id="genreSelect">
+            <option value="0">All</option>
+            <option th:each="genre : ${genre}" th:value="${genre}" th:text="${genre}"></option>
+        </select>
+    </div>
+
+    <div>
+        <label>
+            form
+        </label>
+        <select id="formSelect">
+            <option value="0">All</option>
+            <option th:each="form : ${form}" th:value="${form}" th:text="${form}"></option>
+        </select>
+    </div>
+
+    <div>
+        <label>
+            language
+        </label>
+        <select id="languageSelect">
+            <option value="0">All</option>
+            <option th:each="language : ${language}" th:value="${language}" th:text="${language}"></option>
+        </select>
+    </div>
+    <div>
+        <button onclick="chooseFavor()">Next</button>
+    </div>
+</body>
+</html>

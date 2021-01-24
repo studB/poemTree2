@@ -1,0 +1,47 @@
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+    <head>
+        <style>
+            .box{
+                border: 1px solid red;
+                margin: 10px;
+            }
+        </style>
+
+        <script>
+            function refresh(){
+                var sessionKey = document.getElementById("sessionInput").value;
+                console.log(sessionKey);
+
+                var loadUrl = "http://localhost:8080/refresh/" + sessionKey;
+                window.location = loadUrl;
+            }
+
+            var poem = function(){
+                if(!event){
+                    event = window.event;
+                }
+                var box = event.srcElement;
+                var cid = box.id;
+                var sessionKey = document.getElementById("sessionInput").value;
+                var url = "http://localhost:8080/poemPage?cid="+cid + "&sessionKey=" + sessionKey
+
+                window.location = url;
+            }
+
+        </script>
+
+    </head>
+    <body>
+        <button onclick="refresh()">Refresh</button>
+        <input type="hidden" th:value="${sessionKey}" id="sessionInput">
+        <div th:each="poemInfo : ${poemList}" class="box">
+            <div th:text="${poemInfo.cid}"></div>
+            <div th:text="${poemInfo.title}"></div>
+            <div th:text="${poemInfo.author}"></div>
+            <div th:text="${poemInfo.date}"></div>
+            <button onclick="poem()" th:id="${poemInfo.cid}">poemPage</button>
+        </div>
+
+    </body>
+</html>

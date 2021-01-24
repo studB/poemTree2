@@ -1,0 +1,61 @@
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+    <head>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script>
+            function back(){
+
+                var sessionKey = document.getElementById("sessionInput").value;
+                axios.request({
+                    method:"GET",
+                    url:"http://localhost:8080/back",
+                    params : {
+                        sessionKey : sessionKey,
+                        },
+                    })
+                    .then(window.location="/")
+                    .catch(error => console.log(error))
+            }
+
+            var plus = function(event){
+                if(!event){
+                    event = window.event;
+                }
+
+                var cid = event.srcElement.id;
+                console.log(cid);
+                
+                var sessionKey = document.getElementById("sessionInput").value;
+                var star = document.getElementById("starNum").value;
+                console.log(star);
+                axios.request({
+                    method: "GET",
+                    url : "http://localhost:8080/starring",
+                    params :{
+                        cid : cid,
+                        star : star,
+                    },
+                })
+                .then(window.location = "http://localhost:8080/poemPage?cid="+cid + "&sessionKey="+sessionKey)
+                .catch(error => console.log(error))
+
+            }
+        </script>
+    </head>
+    <body>
+        <input type="hidden" th:value="${sessionKey2}" id="sessionInput">
+        <table th:each = "info : ${info}">
+            <tr>
+                <td th:text="${info.key}"></td>
+                <td th:text="${info.value}"></td>
+                <td th:if="${info.key} == 'star'">
+                    <button onclick="plus()" th:id="${cid}">
+                        <input type="hidden" th:value="${info.value}" id="starNum">
+                        plus
+                    </button>
+                </td>
+            </tr>
+        </table>
+        <button onclick="back()">BackToFavorSelect</button>
+    </body>
+</html>
